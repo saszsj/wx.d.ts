@@ -1,4 +1,4 @@
-// generate time:2017-5-9 09:37:03 
+// generate time:6/15/2017, 12:27:47 PM 
 // Type definitions for wx app
 // Definitions by: hellopao <https://github.com/hellopao/wx.d.ts>
 
@@ -411,9 +411,6 @@ declare var Page: PageConstructor;
 declare var wx: {
     // # 网络 # 
     
-    /**
-     * wx.request发起的是 HTTPS 请求。
-     */
     request(obj: {
         /**
          * 开发者服务器接口地址
@@ -578,6 +575,13 @@ declare var wx: {
         src: string;
     }): Promise<any>;
                     
+    saveImageToPhotosAlbum(obj: {
+        /**
+         * 图片文件路径，可以是临时文件路径也可以是永久文件路径
+         */
+        filePath: string;
+    }): Promise<any>;
+                    
     /**
      * 开始录音。当主动调用wx.stopRecord，或者录音超过1分钟时自动结束录音，返回录音文件的临时文件路径。当用户离开小程序时，此接口无法调用。
      */
@@ -666,6 +670,8 @@ declare var wx: {
      */
     onBackgroundAudioStop(callback: Function): void;
                     
+    getBackgroundAudioManager(): Promise<any>;
+                    
     /**
      * 创建并返回 audio 上下文 audioContext 对象
      */
@@ -687,6 +693,13 @@ declare var wx: {
          * 默认调起的为前置还是后置摄像头。front: 前置，back: 后置，默认 back
          */
         camera?: string;
+    }): Promise<any>;
+                    
+    saveVideoToPhotosAlbum(obj: {
+        /**
+         * 视频文件路径，可以是临时文件路径也可以是永久文件路径
+         */
+        filePath: string;
     }): Promise<any>;
                     
     /**
@@ -884,6 +897,19 @@ declare var wx: {
                     
     onNetworkStatusChange(callback: Function): void;
                     
+    setScreenBrightness(obj: {
+        /**
+         * 屏幕亮度值，范围 0~1，0 最暗，1 最亮
+         */
+        value: number;
+    }): Promise<any>;
+                    
+    getScreenBrightness(): Promise<any>;
+                    
+    vibrateLong(): Promise<any>;
+                    
+    vibrateShort(): Promise<any>;
+                    
     /**
      * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 wx.stopAccelerometer 停止监听。
      */
@@ -912,7 +938,12 @@ declare var wx: {
     /**
      * 调起客户端扫码界面，扫码成功后返回对应的结果
      */
-    scanCode(): Promise<any>;
+    scanCode(obj: {
+        /**
+         * 是否只能从相机扫码，不允许从相册选择图片
+         */
+        onlyFromCamera?: boolean;
+    }): Promise<any>;
                     
     setClipboardData(obj: {
         /**
@@ -936,6 +967,14 @@ declare var wx: {
          * 蓝牙设备主 service 的 uuid 列表
          */
         services?: Array<any>;
+        /**
+         * 是否允许重复上报同一设备， 如果允许重复上报，则onDeviceFound 方法会多次上报同一设备，但是 RSSI 值会有不同
+         */
+        allowDuplicatesKey?: boolean;
+        /**
+         * 上报设备的间隔，默认为0，意思是找到新设备立即上报，否则根据传入的间隔上报
+         */
+        interval?: number;
     }): Promise<any>;
                     
     stopBluetoothDevicesDiscovery(): void;
@@ -1041,7 +1080,7 @@ declare var wx: {
          */
         characteristicId: string;
         /**
-         * 蓝牙设备特征值对应的二进制值
+         * 蓝牙设备特征值对应的二进制值（注意：vConsole 无法打印出 ArrayBuffer 类型数据）
          */
         value: undefined;
     }): Promise<any>;
@@ -1068,6 +1107,152 @@ declare var wx: {
     onBLEConnectionStateChange(callback: Function): void;
                     
     onBLECharacteristicValueChange(callback: Function): void;
+                    
+    startBeaconDiscovery(obj: {
+        /**
+         * iBeacon设备广播的 uuids
+         */
+        uuids: string[];
+    }): Promise<any>;
+                    
+    stopBeaconDiscovery(): void;
+                    
+    getBeacons(): Promise<any>;
+                    
+    onBeaconUpdate(callback: Function): void;
+                    
+    onBeaconServiceChange(callback: Function): void;
+                    
+    addPhoneContact(obj: {
+        /**
+         * 头像本地文件路径
+         */
+        photoFilePath?: string;
+        /**
+         * 昵称
+         */
+        nickName?: string;
+        /**
+         * 姓氏
+         */
+        lastName?: string;
+        /**
+         * 中间名
+         */
+        middleName?: string;
+        /**
+         * 名字
+         */
+        firstName: string;
+        /**
+         * 备注
+         */
+        remark?: string;
+        /**
+         * 手机号
+         */
+        mobilePhoneNumber?: string;
+        /**
+         * 微信号
+         */
+        weChatNumber?: string;
+        /**
+         * 联系地址国家
+         */
+        addressCountry?: string;
+        /**
+         * 联系地址省份
+         */
+        addressState?: string;
+        /**
+         * 联系地址城市
+         */
+        addressCity?: string;
+        /**
+         * 联系地址街道
+         */
+        addressStreet?: string;
+        /**
+         * 联系地址邮政编码
+         */
+        addressPostalCode?: string;
+        /**
+         * 公司
+         */
+        organization?: string;
+        /**
+         * 职位
+         */
+        title?: string;
+        /**
+         * 工作传真
+         */
+        workFaxNumber?: string;
+        /**
+         * 工作电话
+         */
+        workPhoneNumber?: string;
+        /**
+         * 公司电话
+         */
+        hostNumber?: string;
+        /**
+         * 电子邮件
+         */
+        email?: string;
+        /**
+         * 网站
+         */
+        url?: string;
+        /**
+         * 工作地址国家
+         */
+        workAddressCountry?: string;
+        /**
+         * 工作地址省份
+         */
+        workAddressState?: string;
+        /**
+         * 工作地址城市
+         */
+        workAddressCity?: string;
+        /**
+         * 工作地址街道
+         */
+        workAddressStreet?: string;
+        /**
+         * 工作地址邮政编码
+         */
+        workAddressPostalCode?: string;
+        /**
+         * 住宅传真
+         */
+        homeFaxNumber?: string;
+        /**
+         * 住宅电话
+         */
+        homePhoneNumber?: string;
+        /**
+         * 住宅地址国家
+         */
+        homeAddressCountry?: string;
+        /**
+         * 住宅地址省份
+         */
+        homeAddressState?: string;
+        /**
+         * 住宅地址城市
+         */
+        homeAddressCity?: string;
+        /**
+         * 住宅地址街道
+         */
+        homeAddressStreet?: string;
+        /**
+         * 住宅地址邮政编码
+         */
+        homeAddressPostalCode?: string;
+    }): Promise<any>;
                     
     // # 界面 # 
     
@@ -1205,7 +1390,7 @@ declare var wx: {
                     
     reLaunch(obj: {
         /**
-         * 需要跳转的应用内非 tabBar 的页面的路径 , 路径后可以带参数。参数与路径之间使用?分隔，参数键与参数值用=相连，不同参数用&分隔；如 'path?key=value&key2=value2'
+         * 需要跳转的应用内页面路径 , 路径后可以带参数。参数与路径之间使用?分隔，参数键与参数值用=相连，不同参数用&分隔；如 'path?key=value&key2=value2'，如果跳转的页面路径是 tabBar 页面则不能带参数
          */
         url: string;
     }): Promise<any>;
@@ -1285,6 +1470,13 @@ declare var wx: {
      */
     checkSession(): Promise<any>;
                     
+    authorize(obj: {
+        /**
+         * 需要获取权限的scope，详见 scope 列表
+         */
+        scope: string;
+    }): Promise<any>;
+                    
     /**
      * 获取用户信息，需要先调用 wx.login 接口。
      */
@@ -1316,7 +1508,7 @@ declare var wx: {
          */
         signType: string;
         /**
-         * 签名,具体签名方案参见微信公众号支付帮助文档;
+         * 签名,具体签名方案参见小程序支付接口文档;
          */
         paySign: string;
     }): Promise<any>;
@@ -1339,8 +1531,17 @@ declare var wx: {
                     
     openSetting(): Promise<any>;
                     
-    // # 数据分析 # 
+    getSetting(): Promise<any>;
+                    
+    getWeRunData(): Promise<any>;
+                    
+    // # 数据 # 
     
+    /**
+     * 自定义分析数据上报接口。使用前，需要在小程序管理后台自定义分析中新建事件，配置好事件名与字段。
+     */
+    reportAnalytics(, , ): Promise<any>;
+                    
     // # 拓展接口 # 
     
     arrayBufferToBase64(): Promise<any>;
